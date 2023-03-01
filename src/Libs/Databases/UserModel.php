@@ -102,4 +102,74 @@ class UserModel
   }
  }
 
+
+ // get all users data with roles 
+ public function GetAllUsers()
+ {
+  $statement = $this->db->prepare("SELECT users.*, roles.name as role, roles.value FROM users LEFT JOIN roles ON users.role_id = roles.id");
+  $statement->execute();
+  $row = $statement->fetchAll();
+  return $row ?? false;
+ }
+
+
+ // pending user approve
+ public function UserApprove($id, $status)
+ {
+  try {
+   $query = "UPDATE users SET status = :status WHERE id = :id";
+   $statement = $this->db->prepare($query);
+   $statement->execute([
+    ':id' => $id,
+    ':status' => $status
+   ]);
+   return $statement->rowCount();
+  } catch (PDOException $e) {
+   return $e->getMessage();
+  }
+ }
+
+ public function UserSuspend($id, $status)
+ {
+  try {
+   $query = "UPDATE users SET status = :status WHERE id = :id";
+   $statement = $this->db->prepare($query);
+   $statement->execute([
+    ':id' => $id,
+    ':status' => $status
+   ]);
+   return $statement->rowCount();
+  } catch (PDOException $e) {
+   return $e->getMessage();
+  }
+ }
+
+ // change role -> role_id column only update
+
+public function ChangeRole($id, $role_id)
+ {
+  try {
+   $query = "UPDATE users SET role_id = :role_id WHERE id = :id";
+   $statement = $this->db->prepare($query);
+   $statement->execute([
+    ':id' => $id,
+    ':role_id' => $role_id
+   ]);
+   return $statement->rowCount();
+  } catch (PDOException $e) {
+   return $e->getMessage();
+  }
+ }
+
+ // get user data by id with roles
+ public function GetUserById($id)
+ {
+  $statement = $this->db->prepare("SELECT users.*, roles.name as role, roles.value FROM users LEFT JOIN roles ON users.role_id = roles.id WHERE users.id = :id");
+  $statement->execute([
+   ':id' => $id
+  ]);
+  $row = $statement->fetch();
+  return $row ?? false;
+ }
+
 }

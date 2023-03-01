@@ -36,10 +36,11 @@
  <li class=" navigation-header"><span data-i18n="User Interface">User Interface</span><i class="la la-ellipsis-h"
    data-toggle="tooltip" data-placement="right" data-original-title="User Interface"></i>
  </li>
+ <?php if($auth->value == 1) : ?>
  <li class=" nav-item"><a href="#"><i class="la la-server"></i><span class="menu-title"
-    data-i18n="Components">Components</span></a>
+    data-i18n="Components">UserManagement</span></a>
   <ul class="menu-content">
-   <li><a class="menu-item" href="component-alerts.html"><i></i><span data-i18n="Alerts">Alerts</span></a>
+   <li><a class="menu-item" href="user_index.php"><i></i><span data-i18n="Alerts">UserList</span></a>
    </li>
    <li><a class="menu-item" href="component-callout.html"><i></i><span data-i18n="Callout">Callout</span></a>
    </li>
@@ -94,6 +95,7 @@
    </li>
   </ul>
  </li>
+ <?php endif; ?>
  <li class=" nav-item"><a href="#"><i class="la la-unlock"></i><span class="menu-title"
     data-i18n="Authentication">Authentication</span></a>
   <ul class="menu-content">
