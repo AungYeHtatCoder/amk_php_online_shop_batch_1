@@ -12,18 +12,10 @@ $password = md5($_POST['password']);
 
 $db = new UserModel(new Connection);
 
-$user = $db->UserLogin($email, $password);
-
-// echo "<pre>";
-// print_r($user_login_data);
-// echo "</pre>";
+$user = $db->UserLoginCheck($email, $password);
 if($user->value == 1)
 {
  $_SESSION['user'] = $user;
- // echo "<pre>";
- // print_r($_SESSION['user']);
- // echo "</pre>";
- // die();
  HTTP::redirect('../admin/admin_profile.php');
 }elseif($user->value == 2){
  $_SESSION['user'] = $user;
@@ -31,5 +23,5 @@ if($user->value == 1)
 }
 
 else{
- HTTP::redirect('../login_form.php');
+ HTTP::redirect('../login_form.php?msg=you are not approved from admin. ');
 }

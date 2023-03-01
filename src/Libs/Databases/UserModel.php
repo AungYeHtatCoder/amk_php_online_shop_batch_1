@@ -172,4 +172,33 @@ public function ChangeRole($id, $role_id)
   return $row ?? false;
  }
 
+
+ // delete user
+ public function DeleteUser($id)
+ {
+  try {
+   $query = "DELETE FROM users WHERE id = :id";
+   $statement = $this->db->prepare($query);
+   $statement->execute([
+    ':id' => $id
+   ]);
+   return $statement->rowCount();
+  } catch (PDOException $e) {
+   return $e->getMessage();
+  }
+ }
+
+public function UserLoginCheck($email, $password)
+{
+    // suspended user cannot login
+    $statement = $this->db->prepare("SELECT users.*, roles.name as role, roles.value FROM users LEFT JOIN roles ON users.role_id = roles.id WHERE email = :email AND password = :password AND status != 'pending'");
+    $statement->execute([
+        ':email' => $email,
+        ':password' => $password
+    ]);
+    $row = $statement->fetch();
+    return $row ?? false;
+}
+
+
 }

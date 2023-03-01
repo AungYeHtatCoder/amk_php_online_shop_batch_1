@@ -65,6 +65,19 @@
           <img src="admin/app-assets/images/logo/logo-dark.png" alt="branding logo">
          </div>
          <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>Easily Using</span></h6>
+
+         <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>
+           <!-- msg session alert -->
+           <?php if (isset($_GET['msg'])) : ?>
+           <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= $_GET['msg'] ?>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+            </button>
+           </div>
+           <?php unset($_GET['msg']); ?>
+           <?php endif; ?>
+          </span></h6>
         </div>
         <div class="card-content">
          <div class="text-center">

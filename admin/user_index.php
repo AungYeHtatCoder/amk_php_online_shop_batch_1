@@ -126,8 +126,8 @@ include('layouts/head.php');
             </thead>
             <tbody>
              <?php 
-                foreach ($users as $user) :
-                ?>
+                 foreach ($users as $user) :
+             ?>
              <tr>
               <td><?= $user->id ?></td>
               <td><?= $user->user_name ?></td>
@@ -138,57 +138,62 @@ include('layouts/head.php');
                 <!-- change role form -->
                 <form action="../_actions/change_role.php" method="post">
                  <input type="hidden" name="id" value="<?= $user->id ?>">
-                 <?php if($auth->value == 1) : ?>
+
                  <select name="role_id" id="role" class="form-control">
                   <?php 
-                  foreach ($roles as $role) :
-                    ?>
+                                 foreach ($roles as $role) :
+                                 ?>
                   <option value="<?= $role->id ?>" <?= $user->role == $role->name ? 'selected' : '' ?>>
                    <?= $role->name ?>
                   </option>
                   <?php endforeach; ?>
                  </select>
+                 <?php if($auth->value == 1) : ?>
                  <button type="submit" class="btn btn-primary btn-sm">Change Role</button>
                  <?php endif; ?>
+                </form>
                </span>
               </td>
               <td>
                <img src="../_actions/profile/<?= $user->profile_img ?>" alt="profile" width="50" height="50">
               </td>
               <td>
-
                <?php if ($user->status == 'approved') : ?>
                <span class="badge badge-success">Active</span>
                <span>
-                <!-- user suspend form -->
+                <!-- User suspend form -->
                 <form action="../_actions/user_ban.php" method="post">
                  <input type="hidden" name="id" value="<?= $user->id ?>">
                  <input type="hidden" name="status" value="pending">
                  <?php if($auth->value == 1) : ?>
                  <button type="submit" class="btn btn-primary btn-sm">User Ban</button>
                  <?php endif; ?>
-                 <?php else : ?>
-                 <span class="badge badge-warning">Pending . . . . </span>
-                 <span>
-                  <!-- approve form -->
-                  <form action="../_actions/approve.php" method="post">
-                   <input type="hidden" name="id" value="<?= $user->id ?>">
-                   <input type="hidden" name="status" value="approved">
-                   <?php if($auth->value == 1) : ?>
-                   <button type="submit" class="btn btn-primary btn-sm">Approve</button>
-                   <?php endif; ?>
-                 </span>
+                </form>
+               </span>
+               <?php else : ?>
+               <span class="badge badge-warning">Pending . . . . </span>
+               <span>
+                <!-- approve form -->
+                <form action="../_actions/approve.php" method="post">
+                 <input type="hidden" name="id" value="<?= $user->id ?>">
+                 <input type="hidden" name="status" value="approved">
+                 <?php if($auth->value == 1) : ?>
+                 <button type="submit" class="btn btn-primary btn-sm">Approve</button>
                  <?php endif; ?>
+                </form>
+               </span>
+               <?php endif; ?>
               </td>
+
               <td>
                <a href="user_show.php?id=<?= $user->id?>" class="btn btn-warning btn-sm">Show</a>
                <?php if($auth->value == 1) : ?>
-               <a href="edit.php?id=<?= $user->id ?>" class="btn btn-sm btn-primary">Edit</a>
-               <a href="delete.php?id=<?= $user->id ?>" class="btn btn-sm btn-danger">Delete</a>
+               <a href="../_actions/user_delete.php?id=<?= $user->id ?>" class="btn btn-sm btn-danger">Delete</a>
                <?php endif; ?>
               </td>
              </tr>
              <?php endforeach; ?>
+
             </tbody>
             <tfoot>
              <tr>
