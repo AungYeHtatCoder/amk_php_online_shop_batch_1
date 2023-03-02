@@ -28,6 +28,14 @@ $product_data = $db->ProductPagination($offset, $limit);
 // print_r($pagination_products);
 // echo "</pre>";
 // die();
+
+if(isset($_POST['search'])) {
+ $search = $_POST['search'];
+ $product_search = $db->ProductSearch($search);
+}else {
+ //$product_search = $db->GetAllProduct();
+ echo "No data found";
+}
 ?>
 <?php
 include('includes/head.php');
@@ -103,7 +111,8 @@ include('includes/head.php');
        </div>
       </div>
       <div class="row match-height">
-       <?php foreach($product_data as $product) : ?>
+       <?php foreach($product_search as $product) : ?>
+
        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
         <div class="card pull-up">
          <div class="card-content">
@@ -125,8 +134,8 @@ include('includes/head.php');
            <div class="product-action d-flex justify-content-around">
             <a href="#like" data-toggle="tooltip" data-placement="top" title="Add To Wishlist"><i
               class="ft-heart"></i></a><span class="saperator">|</span>
-            <a href="product_detail.php?id=<?= $product->id; ?>" data-toggle="tooltip" data-placement="top"
-             title="Quick View"><i class="ft-eye"></i></a><span class="saperator">|</span>
+            <a href="#view" data-toggle="tooltip" data-placement="top" title="Quick View"><i
+              class="ft-eye"></i></a><span class="saperator">|</span>
             <a href="#compare" data-toggle="tooltip" data-placement="top" title="Compare"><i
               class="ft-sliders"></i></a><span class="saperator">|</span>
             <a href="#cart" data-toggle="tooltip" data-placement="top" title="Add To Cart"><i
@@ -138,6 +147,27 @@ include('includes/head.php');
        </div>
 
        <?php endforeach; ?>
+       <!-- no data not found -->
+       <?php if(count($product_search) == 0) : ?>
+       <div class="col-12">
+        <div class="card">
+         <div class="card-content">
+          <div class="card-body">
+           <div class="row">
+            <div class="col-12">
+             <div class="text-center">
+              <h1 class="error-title mt-2">No Data Found</h1>
+              <p class="pb-2">Sorry, but the page you are looking for has note been found. Try checking the URL for the
+               error, then hit the refresh button on your browser or try found something else in our app.</p>
+              <a class="btn btn-primary round btn-glow px-2" href="index.php">Back to Home</a>
+             </div>
+            </div>
+           </div>
+          </div>
+         </div>
+        </div>
+       </div>
+       <?php endif; ?>
 
        <div class="col-12">
         <div class="card">

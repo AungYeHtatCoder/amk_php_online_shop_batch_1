@@ -6,7 +6,7 @@
     <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs"
       href="#"><i class="ft-menu font-large-1"></i></a></li>
     <li class="nav-item"><a class="navbar-brand" href="index.html"><img class="brand-logo" alt="modern admin logo"
-       src="../../../app-assets/images/logo/logo.png">
+       src="admin/app-assets/images/logo/logo.png">
       <h3 class="brand-text">Modern</h3>
      </a></li>
     <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse"
@@ -176,7 +176,7 @@
        <li class="scrollable-container media-list w-100"><a href="javascript:void(0)">
          <div class="media">
           <div class="media-left"><span class="avatar avatar-sm avatar-online rounded-circle"><img
-             src="../../../app-assets/images/portrait/small/avatar-s-19.png" alt="avatar"><i></i></span></div>
+             src="admin/app-assets/images/portrait/small/avatar-s-19.png" alt="avatar"><i></i></span></div>
           <div class="media-body">
            <h6 class="media-heading">Margaret Govan</h6>
            <p class="notification-text font-small-3 text-muted">I like your portfolio, let's start.</p><small>
@@ -186,7 +186,7 @@
         </a><a href="javascript:void(0)">
          <div class="media">
           <div class="media-left"><span class="avatar avatar-sm avatar-busy rounded-circle"><img
-             src="../../../app-assets/images/portrait/small/avatar-s-2.png" alt="avatar"><i></i></span></div>
+             src="admin/app-assets/images/portrait/small/avatar-s-2.png" alt="avatar"><i></i></span></div>
           <div class="media-body">
            <h6 class="media-heading">Bret Lezama</h6>
            <p class="notification-text font-small-3 text-muted">I have seen your work, there is</p><small>
@@ -196,7 +196,7 @@
         </a><a href="javascript:void(0)">
          <div class="media">
           <div class="media-left"><span class="avatar avatar-sm avatar-online rounded-circle"><img
-             src="../../../app-assets/images/portrait/small/avatar-s-3.png" alt="avatar"><i></i></span></div>
+             src="admin/app-assets/images/portrait/small/avatar-s-3.png" alt="avatar"><i></i></span></div>
           <div class="media-body">
            <h6 class="media-heading">Carie Berra</h6>
            <p class="notification-text font-small-3 text-muted">Can we have call in this week ?</p><small>
@@ -206,7 +206,7 @@
         </a><a href="javascript:void(0)">
          <div class="media">
           <div class="media-left"><span class="avatar avatar-sm avatar-away rounded-circle"><img
-             src="../../../app-assets/images/portrait/small/avatar-s-6.png" alt="avatar"><i></i></span></div>
+             src="admin/app-assets/images/portrait/small/avatar-s-6.png" alt="avatar"><i></i></span></div>
           <div class="media-body">
            <h6 class="media-heading">Eric Alsobrook</h6>
            <p class="notification-text font-small-3 text-muted">We have project party this saturday.</p><small>
@@ -220,7 +220,7 @@
      </li>
      <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#"
        data-toggle="dropdown"><span class="mr-1 user-name text-bold-700">John Doe</span><span
-        class="avatar avatar-online"><img src="../../../app-assets/images/portrait/small/avatar-s-19.png"
+        class="avatar avatar-online"><img src="admin/app-assets/images/portrait/small/avatar-s-19.png"
          alt="avatar"><i></i></span></a>
       <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="user-profile.html"><i
          class="ft-user"></i> Edit Profile</a><a class="dropdown-item" href="app-kanban.html"><i

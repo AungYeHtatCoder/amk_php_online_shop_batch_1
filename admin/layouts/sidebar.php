@@ -42,69 +42,18 @@
   <ul class="menu-content">
    <li><a class="menu-item" href="user_index.php"><i></i><span data-i18n="Alerts">UserList</span></a>
    </li>
-   <li><a class="menu-item" href="component-callout.html"><i></i><span data-i18n="Callout">Callout</span></a>
-   </li>
-   <li><a class="menu-item" href="#"><i></i><span data-i18n="Buttons">Buttons</span></a>
-    <ul class="menu-content">
-     <li><a class="menu-item" href="component-buttons-basic.html"><i></i><span data-i18n="Basic Buttons">Basic
-        Buttons</span></a>
-     </li>
-     <li><a class="menu-item" href="component-buttons-extended.html"><i></i><span data-i18n="Extended Buttons">Extended
-        Buttons</span></a>
-     </li>
-    </ul>
-   </li>
-   <li><a class="menu-item" href="component-carousel.html"><i></i><span data-i18n="Carousel">Carousel</span></a>
-   </li>
-   <li><a class="menu-item" href="component-collapse.html"><i></i><span data-i18n="Collapse">Collapse</span></a>
-   </li>
-   <li><a class="menu-item" href="component-dropdowns.html"><i></i><span data-i18n="Dropdowns">Dropdowns</span></a>
-   </li>
-   <li><a class="menu-item" href="component-list-group.html"><i></i><span data-i18n="List Group">List
-      Group</span></a>
-   </li>
-   <li><a class="menu-item" href="component-modals.html"><i></i><span data-i18n="Modals">Modals</span></a>
-   </li>
-   <li><a class="menu-item" href="component-pagination.html"><i></i><span data-i18n="Pagination">Pagination</span></a>
-   </li>
-   <li><a class="menu-item" href="component-navs-component.html"><i></i><span data-i18n="Navs Component">Navs
-      Component</span></a>
-   </li>
-   <li><a class="menu-item" href="component-tabs-component.html"><i></i><span data-i18n="Tabs Component">Tabs
-      Component</span></a>
-   </li>
-   <li><a class="menu-item" href="component-pills-component.html"><i></i><span data-i18n="Pills Component">Pills
-      Component</span></a>
-   </li>
-   <li><a class="menu-item" href="component-tooltips.html"><i></i><span data-i18n="Tooltips">Tooltips</span></a>
-   </li>
-   <li><a class="menu-item" href="component-popovers.html"><i></i><span data-i18n="Popovers">Popovers</span></a>
-   </li>
-   <li><a class="menu-item" href="component-badges.html"><i></i><span data-i18n="Badges">Badges</span></a>
-   </li>
-   <li><a class="menu-item" href="component-pill-badges.html"><i></i><span>Pill Badges</span></a>
-   </li>
-   <li><a class="menu-item" href="component-progress.html"><i></i><span data-i18n="Progress">Progress</span></a>
-   </li>
-   <li><a class="menu-item" href="component-media-objects.html"><i></i><span data-i18n="Media Objects">Media
-      Objects</span></a>
-   </li>
-   <li><a class="menu-item" href="component-scrollable.html"><i></i><span data-i18n="Scrollable">Scrollable</span></a>
-   </li>
-   <li><a class="menu-item" href="component-spinners.html"><i></i><span data-i18n="Spinners">Spinners</span></a>
-   </li>
+
   </ul>
  </li>
  <?php endif; ?>
  <li class=" nav-item"><a href="#"><i class="la la-unlock"></i><span class="menu-title"
-    data-i18n="Authentication">Authentication</span></a>
+    data-i18n="Authentication">ProductManagement</span></a>
   <ul class="menu-content">
-   <li><a class="menu-item" href="login-with-bg-image.html" target="_blank"><i></i><span>Login</span></a>
+   <li><a class="menu-item" href="category_index.php" target="_blank"><i></i><span>ProductCategory</span></a>
    </li>
-   <li><a class="menu-item" href="register-with-bg-image.html" target="_blank"><i></i><span>SignIn</span></a>
+   <li><a class="menu-item" href="product_index.php" target="_blank"><i></i><span>ShopProdcut</span></a>
    </li>
-   <li><a class="menu-item" href="recover-password.html" target="_blank"><i></i><span>Forgot Password</span></a>
-   </li>
+
   </ul>
  </li>
  <li class=" nav-item"><a href="#"><i class="la la-file-text"></i><span class="menu-title" data-i18n="Form Layouts">Form
