@@ -25,7 +25,8 @@
 
  </li>
  <li class="dropdown nav-item" data-menu="dropdown">
-  <a class="dropdown-toggle nav-link" href="#"><i class="la la-file-text"></i><span data-i18n="Pages">Logout</span></a>
+  <a class="dropdown-toggle nav-link" href="_actions/logout.php"><i class="la la-file-text"></i><span
+    data-i18n="Pages">Logout</span></a>
 
  </li>
 </ul>

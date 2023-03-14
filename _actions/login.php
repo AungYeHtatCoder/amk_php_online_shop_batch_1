@@ -19,7 +19,7 @@ if($user->value == 1)
  HTTP::redirect('../admin/admin_profile.php');
 }elseif($user->value == 2){
  $_SESSION['user'] = $user;
- HTTP::redirect('../admin/user_profile.php');
+ HTTP::redirect('../order_index.php');
 }
 
 else{

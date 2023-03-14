@@ -1,5 +1,10 @@
-<?php 
- session_start();
+<?php
+include('vendor/autoload.php');
+use App\AmkOnlineShop\Databases\Connection;
+use App\AmkOnlineShop\Products\Product;
+use Helpers\Auth;
+$auth = Auth::check(); 
+ //session_start();
  // display all session cart items
 if (isset($_SESSION['cart'])) {
   $cart = $_SESSION['cart'];
@@ -13,50 +18,10 @@ if (isset($_SESSION['cart'])) {
 
 ?>
 
-<head>
- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
- <meta http-equiv="X-UA-Compatible" content="IE=edge" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
- <meta name="description"
-  content="Modern admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities with bitcoin dashboard." />
- <meta name="keywords"
-  content="admin template, modern admin template, dashboard template, flat admin template, responsive admin template, web app, crypto dashboard, bitcoin dashboard" />
- <meta name="author" content="PIXINVENT" />
- <title>
-  Shopping Cart - Modern Admin - Clean Bootstrap 4 Dashboard HTML Template +
-  Bitcoin Dashboard
- </title>
- <link rel="apple-touch-icon" href="admin/app-assets/images/ico/apple-icon-120.png" />
- <link rel="shortcut icon" type="image/x-icon" href="admin/app-assets/images/ico/favicon.ico" />
- <link
-  href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700"
-  rel="stylesheet" />
 
- <!-- BEGIN: Vendor CSS-->
- <link rel="stylesheet" type="text/css" href="admin/app-assets/vendors/css/vendors.min.css" />
- <link rel="stylesheet" type="text/css" href="admin/app-assets/vendors/css/forms/icheck/icheck.css" />
- <link rel="stylesheet" type="text/css"
-  href="admin/app-assets/vendors/css/forms/spinner/jquery.bootstrap-touchspin.css" />
- <!-- END: Vendor CSS-->
-
- <!-- BEGIN: Theme CSS-->
- <link rel="stylesheet" type="text/css" href="admin/app-assets/css/bootstrap.css" />
- <link rel="stylesheet" type="text/css" href="admin/app-assets/css/bootstrap-extended.css" />
- <link rel="stylesheet" type="text/css" href="admin/app-assets/css/colors.css" />
- <link rel="stylesheet" type="text/css" href="admin/app-assets/css/components.css" />
- <!-- END: Theme CSS-->
-
- <!-- BEGIN: Page CSS-->
- <link rel="stylesheet" type="text/css" href="admin/app-assets/css/core/menu/menu-types/vertical-menu-modern.css" />
- <link rel="stylesheet" type="text/css" href="admin/app-assets/css/core/colors/palette-gradient.css" />
- <link rel="stylesheet" type="text/css" href="admin/app-assets/css/pages/ecommerce-cart.css" />
- <link rel="stylesheet" type="text/css" href="admin/app-assets/css/plugins/forms/checkboxes-radios.css" />
- <!-- END: Page CSS-->
-
- <!-- BEGIN: Custom CSS-->
- <link rel="stylesheet" type="text/css" href="admin/assets/css/style.css" />
- <!-- END: Custom CSS-->
-</head>
+<?php 
+ include('includes/order_style.php');
+ ?>
 
 <body class="horizontal-layout horizontal-menu horizontal-menu-padding 2-columns  " data-open="click"
  data-menu="horizontal-menu" data-col="2-columns">
@@ -88,7 +53,7 @@ if (isset($_SESSION['cart'])) {
      <div class="row breadcrumbs-top d-inline-block">
       <div class="breadcrumb-wrapper col-12">
        <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+        <li class="breadcrumb-item"><a href="index.php">Home</a></li>
         <li class="breadcrumb-item active">Shopping Cart</li>
        </ol>
       </div>
@@ -144,12 +109,12 @@ if (isset($_SESSION['cart'])) {
              </tr>
             </thead>
             <tbody>
+             <?php if(isset($cart)) : ?>
+             <?php foreach($cart as $product) : ?>
+             <?php 
+              $total = $product['quantity'] * $product['price'];
+              ?>
              <tr>
-              <?php foreach($cart as $product) : ?>
-              <?php 
-                // // total price
-                 $total_price = $product['price'] * $product['quantity'];
-                ?>
               <td>
                <div class="product-img d-flex align-items-center">
                 <img class="img-fluid" src="<?= $product['file_name']; ?>" alt="Card image cap" />
@@ -168,39 +133,50 @@ if (isset($_SESSION['cart'])) {
               </td>
               <td>
                <div class="input-group">
-                <input type="text" class="text-center count touchspin" value="<?= $product['quantity']; ?>" />
+                <form method="post">
+                 <input type="hidden" name="product_id" value="<?=$product['product_id']?>" />
+                 <input type="text" class="text-center count touchspin" name="quantity"
+                  value="<?= $product['quantity']?>" />
+                 <button type="submit" name="update" class="btn btn-sm btn-info">
+                  <i class="ft-refresh-cw"></i>
+                 </button>
+                </form>
+                <?php 
+                if(isset($_POST['update'])) {
+                  foreach($_SESSION['cart'] as $key => $value) {
+                    if($value['product_id'] == $_POST['product_id']) {
+                      $_SESSION['cart'][$key]['quantity'] = $_POST['quantity'];
+                      echo "<script>window.location.href='order_index.php'</script>";
+                    }
+                  }
+                }
+                ?>
                </div>
               </td>
               <td>
-               <div class="total-price">$ <?= $total_price; ?></div>
+               <div class="total-price">$ <?= $total; ?></div>
               </td>
               <td>
-               <?php 
-               // session remove process
+               <div class="product-action">
+                <form method="post">
+                 <input type="hidden" name="product_id" value="<?= $product['product_id'] ?>">
+                 <button type="submit" name="remove" class="btn btn-sm btn-danger"><i class="ft-trash-2"></i></button>
+                </form>
+                <?php
                 if(isset($_POST['remove'])) {
                   foreach($_SESSION['cart'] as $key => $value) {
                     if($value['product_id'] == $_POST['product_id']) {
                       unset($_SESSION['cart'][$key]);
+                      echo "<script>window.location.href='order_index.php'</script>";
                     }
                   }
-                  // auto redirect page
-                  echo "<meta http-equiv='refresh' content='0'>";
-                }
 
-               
-               ?>
-               <div class="product-action">
-                <!-- <a href="#"><i class="ft-trash-2"></i></a> -->
-                <!-- session remove form -->
-                <form action="" method="post">
-                 <input type="hidden" name="product_id" value="<?= $product['product_id']; ?>">
-                 <button type="submit" name="remove" class="btn btn-danger btn-sm"><i class="ft-trash-2"></i></button>
+                }
+                ?>
                </div>
               </td>
-             </tr>
-
-             <?php  endforeach; ?>
-
+              <?php endforeach; ?>
+              <?php endif; ?>
             </tbody>
            </table>
           </div>
@@ -238,8 +214,28 @@ if (isset($_SESSION['cart'])) {
           <div class="card-content">
            <div class="card-body">
             <div class="price-detail">
-             Price (4 items)
-             <span class="float-right">$2800</span>
+             <?php if(isset($cart)) : ?>
+             Price : ( <strong><?= count($cart); ?></strong> - items)
+             <?php endif; ?>
+             <span class="float-right">
+
+              <?php 
+             // ALL TOTAL PRICE from $cart
+            if(isset($cart)) :
+                if(is_array($cart)) {
+                $total_item = 0;
+                foreach($cart as $product) {
+                  $total_item += $product['price'] * $product['quantity'];
+                }
+              } else {
+                $total_item = 0;
+              }
+           
+              ?>
+              $
+              <?= $total_item; ?>
+
+             </span>
             </div>
             <div class="price-detail">
              Delivery Charges
@@ -251,10 +247,11 @@ if (isset($_SESSION['cart'])) {
             <hr />
             <div class="price-detail">
              Payable Amount
-             <span class="float-right">$2900</span>
+             <span class="float-right">$ <?= $total_item + 100 + 0; ?></span>
             </div>
             <div class="total-savings">
-             Your Total Savings on this order $550
+             Your Total Savings on this order $ <?= $total_item + 100 + 0; ?>
+             <?php  endif; ?>
             </div>
            </div>
           </div>
@@ -362,123 +359,128 @@ if (isset($_SESSION['cart'])) {
           </div>
           <div class="card-content">
            <div class="card-body">
-            <form class="needs-validation" novalidate="">
-             <div class="row">
-              <div class="col-md-6 mb-3">
-               <label for="firstName">First name</label>
-               <input type="text" class="form-control" id="firstName" placeholder="" value="" required="" />
-               <div class="invalid-feedback">
-                Valid first name is required.
-               </div>
-              </div>
-              <div class="col-md-6 mb-3">
-               <label for="lastName">Last name</label>
-               <input type="text" class="form-control" id="lastName" placeholder="" value="" required="" />
-               <div class="invalid-feedback">
-                Valid last name is required.
-               </div>
-              </div>
-             </div>
 
-             <div class="mb-3">
-              <label for="username">Username</label>
-              <div class="input-group">
-               <div class="input-group-prepend">
-                <span class="input-group-text">@</span>
-               </div>
-               <input type="text" class="form-control" id="username" placeholder="Username" required="" />
-               <div class="invalid-feedback">
-                Your username is required.
-               </div>
-              </div>
-             </div>
-
-             <div class="mb-3">
-              <label for="email">Email
-               <span class="text-muted">(Optional)</span></label>
-              <input type="email" class="form-control" id="email" placeholder="you@example.com" />
+            <div class="row">
+             <div class="col-md-6 mb-3">
+              <label for="firstName">First name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="" value="<?= $auth->user_name; ?>"
+               required="" />
               <div class="invalid-feedback">
-               Please enter a valid email address for shipping
-               updates.
+               Valid first name is required.
               </div>
              </div>
-
-             <div class="mb-3">
-              <label for="address">Address</label>
-              <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="" />
+             <div class="col-md-6 mb-3">
+              <label for="lastName">Last name</label>
+              <input type="text" class="form-control" id="lastName" placeholder="" value="" required="" />
               <div class="invalid-feedback">
-               Please enter your shipping address.
+               Valid last name is required.
               </div>
              </div>
+            </div>
 
-             <div class="mb-3">
-              <label for="address2">Address 2
-               <span class="text-muted">(Optional)</span></label>
-              <input type="text" class="form-control" id="address2" placeholder="Apartment or suite" />
+            <div class="mb-3">
+             <label for="username">Username</label>
+             <div class="input-group">
+              <div class="input-group-prepend">
+               <span class="input-group-text">@</span>
+              </div>
+              <input type="text" class="form-control" id="username" value="<?= $auth->public_name; ?>" required="" />
+              <div class="invalid-feedback">
+               Your username is required.
+              </div>
              </div>
+            </div>
 
-             <div class="row">
-              <div class="col-md-5 mb-3">
-               <label for="country">Country</label>
-               <select class="custom-select d-block w-100" id="country" required="">
-                <option value="">Choose...</option>
-                <option>United States</option>
-               </select>
-               <div class="invalid-feedback">
-                Please select a valid country.
-               </div>
-              </div>
-              <div class="col-md-4 mb-3">
-               <label for="state">State</label>
-               <select class="custom-select d-block w-100" id="state" required="">
-                <option value="">Choose...</option>
-                <option>California</option>
-               </select>
-               <div class="invalid-feedback">
-                Please provide a valid state.
-               </div>
-              </div>
-              <div class="col-md-3 mb-3">
-               <label for="zip">Zip</label>
-               <input type="text" class="form-control" id="zip" placeholder="" required="" />
-               <div class="invalid-feedback">
-                Zip code required.
-               </div>
-              </div>
+            <div class="mb-3">
+             <label for="email">Email
+              <span class="text-muted">(Optional)</span></label>
+             <input type="email" class="form-control" id="email" value="<?= $auth->email; ?>" />
+             <div class="invalid-feedback">
+              Please enter a valid email address for shipping
+              updates.
              </div>
-             <hr class="mb-2" />
-             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="same-address" checked />
-              <label class="custom-control-label" for="same-address">Shipping address is the same as my billing
-               address</label>
-             </div>
-             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="save-info" checked />
-              <label class="custom-control-label" for="save-info">Save this information for next time</label>
-             </div>
-             <hr class="mt-2 mb-4" />
+            </div>
 
-             <h4 class="mb-1">Payment</h4>
+            <div class="mb-3">
+             <label for="address">Address</label>
+             <input type="text" class="form-control" id="address" value="<?= $auth->address; ?>" required="" />
+             <div class="invalid-feedback">
+              Please enter your shipping address.
+             </div>
+            </div>
+
+            <div class="mb-3">
+             <label for="address2">Address 2
+              <span class="text-muted">(Optional)</span></label>
+             <input type="text" class="form-control" id="address2" value="<?= $auth->fix_address ; ?>" />
+            </div>
+
+            <div class="row">
+             <div class="col-md-5 mb-3">
+              <label for="country">Country</label>
+              <select class="custom-select d-block w-100" id="country" required="">
+               <option value=""><?= $auth->country; ?></option>
+
+              </select>
+              <div class="invalid-feedback">
+               Please select a valid country.
+              </div>
+             </div>
+             <div class="col-md-4 mb-3">
+              <label for="state">State</label>
+              <select class="custom-select d-block w-100" id="state" required="">
+               <option value=""><?= $auth->state; ?></option>
+
+              </select>
+              <div class="invalid-feedback">
+               Please provide a valid state.
+              </div>
+             </div>
+             <div class="col-md-3 mb-3">
+              <label for="zip">Zip</label>
+              <input type="text" class="form-control" id="zip" placeholder="" required="" />
+              <div class="invalid-feedback">
+               Zip code required.
+              </div>
+             </div>
+            </div>
+            <hr class="mb-2" />
+            <div class="custom-control custom-checkbox">
+             <input type="checkbox" class="custom-control-input" id="same-address" checked />
+             <label class="custom-control-label" for="same-address">Shipping address is the same as my billing
+              address</label>
+            </div>
+            <div class="custom-control custom-checkbox">
+             <input type="checkbox" class="custom-control-input" id="save-info" checked />
+             <label class="custom-control-label" for="save-info">Save this information for next time</label>
+            </div>
+            <hr class="mt-2 mb-4" />
+
+            <h4 class="mb-1">Payment</h4>
+
+            <form class="needs-validation" novalidate="" action="_actions/order_create.php" method="post">
 
              <div class="d-block my-2">
               <div class="custom-control custom-radio">
-               <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked=""
-                required="" />
+               <input id="credit" name="payment_method" type="radio" class="custom-control-input" checked="" required=""
+                value="Credit card" />
                <label class="custom-control-label" for="credit">Credit card</label>
               </div>
               <div class="custom-control custom-radio">
-               <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required="" />
+               <input id="debit" name="payment_method" type="radio" class="custom-control-input" required=""
+                value="Debit card" />
                <label class="custom-control-label" for="debit">Debit card</label>
               </div>
               <div class="custom-control custom-radio">
-               <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required="" />
+               <input id="paypal" name="payment_method" type="radio" class="custom-control-input" required=""
+                value="Paypal" />
                <label class="custom-control-label" for="paypal">Paypal</label>
               </div>
              </div>
              <div class="row">
               <div class="col-md-6 mb-3">
                <label for="cc-name">Name on card</label>
-               <input type="text" class="form-control" id="cc-name" placeholder="" required="" />
+               <input type="text" name="card_name" class="form-control" id="cc-name" placeholder="" required="" />
                <small class="text-muted">Full name as displayed on card</small>
                <div class="invalid-feedback">
                 Name on card is required
@@ -486,7 +488,7 @@ if (isset($_SESSION['cart'])) {
               </div>
               <div class="col-md-6 mb-3">
                <label for="cc-number">Credit card number</label>
-               <input type="text" class="form-control" id="cc-number" placeholder="" required="" />
+               <input type="text" name="card_no" class="form-control" id="cc-number" placeholder="" required="" />
                <div class="invalid-feedback">
                 Credit card number is required
                </div>
@@ -495,19 +497,29 @@ if (isset($_SESSION['cart'])) {
              <div class="row">
               <div class="col-md-3 mb-3">
                <label for="cc-expiration">Expiration</label>
-               <input type="text" class="form-control" id="cc-expiration" placeholder="" required="" />
+               <input type="text" name="exp_date" class="form-control" id="cc-expiration" placeholder="" required="" />
                <div class="invalid-feedback">
                 Expiration date required
                </div>
               </div>
               <div class="col-md-3 mb-3">
                <label for="cc-expiration">CVV</label>
-               <input type="text" class="form-control" id="cc-cvv" placeholder="" required="" />
+               <input type="text" name="cvv_no" class="form-control" id="cc-cvv" placeholder="" required="" />
                <div class="invalid-feedback">
                 Security code required
                </div>
               </div>
              </div>
+             <?php if (isset($_SESSION['cart'])) : ?>
+             <?php foreach ($_SESSION['cart'] as $key => $value) : ?>
+             <input type="hidden" name="product_id[]" value="<?= $value['product_id']; ?>" />
+             <input type="hidden" name="price[]" value="<?= $value['price']; ?>" />
+             <input type="hidden" name="quantity[]" value="<?= $value['quantity']; ?>" />
+             <input type="hidden" name="total_price[]" value="<?= $value['price'] * $value['quantity']; ?>" />
+             <!-- user_id -->
+             <input type="hidden" name="user_id" value="<?= $auth->id; ?>" />
+             <?php endforeach;  ?>
+             <?php endif;  ?>
              <button class="btn btn-info btn-lg" type="submit">
               Continue to checkout
              </button>
@@ -617,7 +629,7 @@ if (isset($_SESSION['cart'])) {
           <div class="d-flex justify-content-between lh-condensed">
            <div class="order-details text-center">
             <div class="product-img d-flex align-items-center">
-             <img class="img-fluid" src="../../../app-assets/images/elements/13.png" alt="Card image cap" />
+             <img class="img-fluid" src="admin//app-assets/images/elements/13.png" alt="Card image cap" />
             </div>
            </div>
            <div class="order-details">
@@ -660,7 +672,7 @@ if (isset($_SESSION['cart'])) {
           <div class="d-flex justify-content-between lh-condensed">
            <div class="order-details text-center">
             <div class="product-img d-flex align-items-center">
-             <img class="img-fluid" src="../../../app-assets/images/elements/vr.png" alt="Card image cap" />
+             <img class="img-fluid" src="admin/app-assets/images/elements/vr.png" alt="Card image cap" />
             </div>
            </div>
            <div class="order-details">
@@ -703,7 +715,7 @@ if (isset($_SESSION['cart'])) {
           <div class="d-flex justify-content-between lh-condensed">
            <div class="order-details text-center">
             <div class="product-img d-flex align-items-center">
-             <img class="img-fluid" src="../../../app-assets/images/carousel/25.jpg" alt="Card image cap" />
+             <img class="img-fluid" src="admin/app-assets/images/carousel/25.jpg" alt="Card image cap" />
             </div>
            </div>
            <div class="order-details">
@@ -744,34 +756,4 @@ if (isset($_SESSION['cart'])) {
 
  <!-- BEGIN: Footer-->
 
- <footer class="footer footer-static footer-light navbar-border navbar-shadow">
-  <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2">
-   <span class="float-md-left d-block d-md-inline-block">Copyright &copy; 2019
-    <a class="text-bold-800 grey darken-2" href="https://1.envato.market/modern_admin"
-     target="_blank">PIXINVENT</a></span><span class="float-md-right d-none d-lg-block">Hand-crafted & Made with<i
-     class="ft-heart pink"></i><span id="scroll-top"></span></span>
-  </p>
- </footer>
- <!-- END: Footer-->
-
- <!-- BEGIN: Vendor JS-->
- <script src="admin/app-assets/vendors/js/vendors.min.js"></script>
- <!-- BEGIN Vendor JS-->
-
- <!-- BEGIN: Page Vendor JS-->
- <script src="admin/app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
- <script src="admin/app-assets/vendors/js/forms/icheck/icheck.min.js"></script>
- <!-- END: Page Vendor JS-->
-
- <!-- BEGIN: Theme JS-->
- <script src="admin/app-assets/js/core/app-menu.js"></script>
- <script src="admin/app-assets/js/core/app.js"></script>
- <!-- END: Theme JS-->
-
- <!-- BEGIN: Page JS-->
- <script src="admin/app-assets/js/scripts/pages/ecommerce-cart.js"></script>
- <!-- END: Page JS-->
-</body>
-<!-- END: Body-->
-
-</html>
+ <?php include('includes/order_js.php'); ?>

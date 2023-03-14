@@ -9,7 +9,7 @@ $db = new ProductModel(new Connection());
 $products = $db->GetAllProduct();
 $product_count = count($products);
 // echo "<pre>";
-// print_r($product_count);
+// print_r($products);
 // echo "</pre>";
 // die();
 $start = $product_count;
@@ -54,6 +54,12 @@ if(isset($_POST['add_to_cart'])){
   }
 
 }
+// /
+// echo "<pre>";
+// print_r($cart);
+// echo "</pre>";
+// die();
+//}
 ?>
 <?php
 include('includes/head.php');
