@@ -1,5 +1,5 @@
 <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
- <li class="active"><a href="index.html"><i class="la la-home"></i><span class="menu-title"
+ <li class="active"><a href="dashboard.php"><i class="la la-home"></i><span class="menu-title"
     data-i18n="eCommerce Dashboard">eCommerce Dashboard</span></a>
  </li>
  <li class=" navigation-header"><span data-i18n="Ecommerce">Ecommerce</span><i class="la la-ellipsis-h"

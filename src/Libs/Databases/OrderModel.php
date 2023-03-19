@@ -41,4 +41,76 @@ class OrderModel {
             return -1;
         }
     }
+
+    // get all orders with products table join with users table join with order table
+    // public function GetAllOrders() {
+    //     try {
+    //         $query = "SELECT orders.*, products.product_name as p_name, users.user_name, users.public_name, users.profile_img as profile FROM orders INNER JOIN products ON orders.product_id = products.id INNER JOIN users ON orders.user_id = users.id";
+    //         $statement = $this->db->prepare($query);
+    //         $statement->execute();
+    //         return $statement->fetchAll(PDO::FETCH_OBJ);
+            
+
+    //     } catch (PDOException $e) {
+    //         return [];
+    //     }
+    // }
+
+    public function GetAllOrders()
+    {
+        try {
+            $query = "SELECT orders.*, products.product_name as p_name, products.file_name as p_image, users.user_name, users.profile_img as profile FROM orders INNER JOIN products ON orders.product_id = products.id INNER JOIN users ON orders.user_id = users.id";
+            $statement = $this->db->prepare($query);
+            $statement->execute();
+            return $statement->fetchAll();
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+     // CustomerOrderPagination
+    public function CustomerOrderPagination($start, $limit)
+    {
+        try {
+            $query = "SELECT orders.*, products.product_name as p_name, products.file_name as p_image, users.user_name, users.profile_img as profile FROM orders INNER JOIN products ON orders.product_id = products.id INNER JOIN users ON orders.user_id = users.id LIMIT $start, $limit";
+            $statement = $this->db->prepare($query);
+            $statement->execute();
+            return $statement->fetchAll();
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
+    // get order by user_id 
+    public function GetOrderByUserId($user_id) {
+        try {
+            $query = "SELECT orders.*, products.product_name as p_name, products.file_name as p_image, users.user_name, users.profile_img as profile FROM orders INNER JOIN products ON orders.product_id = products.id INNER JOIN users ON orders.user_id = users.id WHERE orders.user_id = :user_id";
+            $statement = $this->db->prepare($query);
+            $statement->bindValue(':user_id', $user_id);
+            $statement->execute();
+            return $statement->fetchAll();
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+     public function GetAllOrdersWithProducts()
+    {
+        $statement = $this->db->prepare("SELECT orders.*, products.product_name, users.user_name, users.profile_img as profile FROM orders INNER JOIN products ON orders.product_id = products.id INNER JOIN users ON orders.user_id = users.id ORDER BY orders.id DESC");
+        $statement->execute();
+        return $statement->fetchAll();
+    }
+
+    public function OrderPagination($start, $limit)
+    {
+        try {
+            $query = "SELECT orders.*, products.product_name, products.file_name as p_image, users.user_name, users.profile_img as profile FROM orders INNER JOIN products ON orders.product_id = products.id INNER JOIN users ON orders.user_id = users.id LIMIT $start, $limit";
+            $statement = $this->db->prepare($query);
+            $statement->execute();
+            return $statement->fetchAll();
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+
 }

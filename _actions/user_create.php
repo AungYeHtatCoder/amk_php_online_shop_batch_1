@@ -21,8 +21,8 @@ $data = [
  'fav_music' => $_POST['fav_music'],
  'fav_movie' => $_POST['fav_movie'],
  'website' => $_POST['website'],
- 'status' => 'pending', // pending, active, inactive
- 'role_id' => '2' // 2 is for user
+ 'status' => 'approved', // pending, active, inactive
+ 'role_id' => '1' // 2 is for user
 
 ];
 
